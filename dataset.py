@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-df = pd.read_csv('training_data.csv')
+import math
+df=pd.read_csv('training_data.csv', lineterminator='\n')
 print(len(df.index))
 
 row=len(df.index)
@@ -11,7 +12,9 @@ print(df['emp_length'].head(20))
 #df['int_rate'].str.extract('([0-9]+)').astype(float)
 df.int_rate=df['int_rate'].str.extract('([0-9]+)').astype(float)
 df.term=df['term'].str.extract('([0-9]+)').astype(float)
+df.revol_util=df['revol_util'].str.extract('([0-9]+)').astype(float)
 df.int_rate=df.int_rate/100
+df.revol_util=df.revol_util/100
 #print(df['grade'].mask(df['grade']== 'A',0).head(5))
 #grade_change_number
 
@@ -71,3 +74,84 @@ df.emp_length=df.emp_length.astype(float)
 print(df.head(15))
 #print (df)
 print(df.dtypes)
+print(df['revol_util'].head(15))
+a = max(df['tot_hi_cred_lim'])
+df.tot_hi_cred_lim=df.tot_hi_cred_lim/a
+
+a = max(df['dti'])
+df.dti=df.dti/a
+a = max(df['annual_inc'])
+
+df.annual_inc=df.annual_inc/a
+for j in range(0,row):
+    df['annual_inc'][j]=math.tanh(2*df['annual_inc'][j])
+    
+    #print(df['annual_inc'][j],j,a)
+a = max(df['mths_since_last_delinq'])
+df.mths_since_last_delinq=df.mths_since_last_delinq/a
+#a = max(df['mths_since_last_record'])
+#df.mths_since_last_record=df.mths_since_last_record/a
+a = max(df['revol_bal'])
+df.revol_bal=df.revol_bal/a
+a = max(df['tot_cur_bal'])
+df.tot_cur_bal=df.tot_cur_bal/a
+a = max(df['total_bal_il'])
+df.total_bal_il=df.total_bal_il/a
+a = max(df['max_bal_bc'])
+df.max_bal_bc=df.max_bal_bc/a
+df.total_bal_il=df.total_bal_il/a
+a = max(df['total_rev_hi_lim'])
+df.total_rev_hi_lim=df.total_rev_hi_lim/a
+#a = max(df['avg_cur_bal'])
+#df.avg_cur_bal=df.avg_cur_bal/a
+a = max(df['bc_open_to_buy'])
+df.bc_open_to_buy=df.bc_open_to_buy/a
+a = max(df['total_bal_ex_mort'])
+df.total_bal_ex_mort=df.total_bal_ex_mort/a
+a = max(df['avg_cur_bal'])
+df.avg_cur_bal=df.avg_cur_bal/a
+a = max(df['total_bc_limit'])
+df.total_bc_limit=df.total_bc_limit/a
+a = max(df['total_il_high_credit_limit'])
+df.total_il_high_credit_limit=df.total_il_high_credit_limit/a
+
+a = max(df['loan_amnt'])
+df.loan_amnt=df.loan_amnt/a
+a = max(df['term'])
+df.term=df.term/a
+a = max(df['installment'])
+df.installment=df.installment/a
+a = max(df['emp_length'])
+df.emp_length=df.emp_length/a
+a = max(df['mo_sin_old_rev_tl_op'])
+df.mo_sin_old_rev_tl_op=df.mo_sin_old_rev_tl_op/a
+a = max(df['mo_sin_old_il_acct'])
+df.mo_sin_old_il_acct=df.mo_sin_old_il_acct/a
+a = max(df['pct_tl_nvr_dlq'])
+df.pct_tl_nvr_dlq=df.pct_tl_nvr_dlq/a
+a = max(df['percent_bc_gt_75'])
+df.percent_bc_gt_75=df.percent_bc_gt_75/a
+
+
+
+# Delete column
+del df['emp_title']
+
+df.to_csv("output.csv", index=None)
+"""
+print (df['emp_title'])
+
+def remove_duplicates(x):
+    list_a = []
+    for index,i in enumerate(x):
+        list_a.append(i)
+        if list_a.count(i) > 1:
+            list_a.remove(i)
+    return list_a
+aaa=remove_duplicates(df['emp_title'])
+bbb=np.array(aaa)
+print (bbb.shape)
+"""
+print(max(df['annual_inc']))
+
+
