@@ -2,10 +2,11 @@ import pandas as pd
 import numpy as np
 import math
 df=pd.read_csv('training_data.csv', lineterminator='\n')
+#
 print(len(df.index))
 
 row=len(df.index)
-print(df['emp_length'].head(20))
+
 
 
 #print(df)
@@ -70,11 +71,10 @@ df['emp_length']=df['emp_length'].mask(df['emp_length']== '10+ years ',"11")
 df.emp_length=df['emp_length'].str.extract('([0-9]+)')
 
 df.emp_length=df.emp_length.astype(float)
-
-print(df.head(15))
+#"print(df.head(15))
 #print (df)
-print(df.dtypes)
-print(df['revol_util'].head(15))
+#print(df.dtypes)
+#print(df['revol_util'].head(15))
 a = max(df['tot_hi_cred_lim'])
 df.tot_hi_cred_lim=df.tot_hi_cred_lim/a
 
@@ -82,10 +82,12 @@ a = max(df['dti'])
 df.dti=df.dti/a
 a = max(df['annual_inc'])
 
-df.annual_inc=df.annual_inc/a
+df.annual_inc=df.annual_inc/400000
+"""
 for j in range(0,row):
     df['annual_inc'][j]=math.tanh(2*df['annual_inc'][j])
-    
+    print(j)
+"""    
     #print(df['annual_inc'][j],j,a)
 a = max(df['mths_since_last_delinq'])
 df.mths_since_last_delinq=df.mths_since_last_delinq/a
@@ -116,6 +118,7 @@ a = max(df['total_il_high_credit_limit'])
 df.total_il_high_credit_limit=df.total_il_high_credit_limit/a
 
 a = max(df['loan_amnt'])
+print("loan_amnt",a)
 df.loan_amnt=df.loan_amnt/a
 a = max(df['term'])
 df.term=df.term/a
@@ -136,8 +139,8 @@ df.percent_bc_gt_75=df.percent_bc_gt_75/a
 
 # Delete column
 del df['emp_title']
-
-df.to_csv("output.csv", index=None)
+print(df.head(2))
+#df.to_csv("output.csv", index=None)
 """
 print (df['emp_title'])
 
@@ -152,6 +155,6 @@ aaa=remove_duplicates(df['emp_title'])
 bbb=np.array(aaa)
 print (bbb.shape)
 """
-print(max(df['annual_inc']))
+#print(max(df['annual_inc']))
 
 
